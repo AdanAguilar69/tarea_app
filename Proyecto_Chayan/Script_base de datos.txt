@@ -1,0 +1,55 @@
+-- Crear la base de datos
+CREATE DATABASE TareasDB;
+GO
+
+-- Usar la base de datos
+USE TareasDB;
+GO
+
+-- Crear la tabla "Tareas"
+CREATE TABLE Tareas (
+    ID INT PRIMARY KEY IDENTITY(1,1),
+    Titulo NVARCHAR(255),
+    Descripcion NVARCHAR(1000),
+    FechaCreacion DATETIME
+);
+GO
+
+CREATE PROCEDURE CrearTarea
+    @Titulo NVARCHAR(255),
+    @Descripcion NVARCHAR(1000)
+AS
+BEGIN
+    INSERT INTO Tareas (Titulo, Descripcion, FechaCreacion)
+    VALUES (@Titulo, @Descripcion, GETDATE());
+END;
+GO
+
+CREATE PROCEDURE LeerTodasLasTareas
+AS
+BEGIN
+    SELECT * FROM Tareas;
+END;
+GO
+
+
+CREATE PROCEDURE ActualizarTarea
+    @ID INT,
+    @Titulo NVARCHAR(255),
+    @Descripcion NVARCHAR(1000)
+AS
+BEGIN
+    UPDATE Tareas
+    SET Titulo = @Titulo, Descripcion = @Descripcion
+    WHERE ID = @ID;
+END;
+GO
+
+CREATE PROCEDURE EliminarTarea
+    @ID INT
+AS
+BEGIN
+    DELETE FROM Tareas
+    WHERE ID = @ID;
+END;
+GO
